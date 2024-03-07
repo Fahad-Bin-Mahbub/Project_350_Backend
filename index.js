@@ -5,7 +5,8 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
-
+const jsonParser = require("./middlewares/jsonParser");
+const apiRoutes = require("./routes")
 require("./config/db");
 require("colors");
 
@@ -21,6 +22,8 @@ app.use(cors());
 app.use(limiter);
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(jsonParser);
+app.use("/api",apiRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Server is up and running");
