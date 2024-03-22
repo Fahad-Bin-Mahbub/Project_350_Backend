@@ -39,6 +39,10 @@ exports.adminLogin = asyncHandler(async (req, res, next) => {
 
 	if (!password) return next(new ErrorResponse("Please input Password!", 500));
 	let user = await User.findOne({ email });
+	
+	if(!user)
+		return next(new ErrorResponse("No User found with this email", 404));
+
 	console.log(user);
 	let admin = await Admin.findOne({ _id: user._id }).select("+password");
 
