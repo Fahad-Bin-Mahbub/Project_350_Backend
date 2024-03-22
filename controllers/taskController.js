@@ -8,7 +8,7 @@ exports.createTask = asyncHandler(async (req, res, next) => {
     try{
         const userId = req.user.id;
         const taskData = {...req.body, createdBy: userId};
-        task = await Task.create(taskdata);
+        task = await Task.create(taskData);
         console.log("Task created now assigning to exam");
         const examId = req.body.examId;
         console.log(examId)

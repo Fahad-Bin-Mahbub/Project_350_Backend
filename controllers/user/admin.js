@@ -9,21 +9,27 @@ exports.createAdmin = asyncHandler(async (req, res, next) => {
 	console.log(req.body);
 	let user = await User.findOne({ email });
 	console.log(user);
-	if (user) {
-		if (user.roles.includes("admin")) {
-			return next(new ErrorResponse("User is already an admin", 400));
+
+	try {
+		if (user) {
+			if (user.roles.includes("admin")) {
+				return next(new ErrorResponse("User is already an admin", 400));
+			}
+			user.roles.push("admin");
+			await user.save();
+		} else {
+			user = await User.create({ ...req.body, roles: ["admin"] });
 		}
-		user.roles.push("admin");
-		await user.save();
-	} else {
-		user = await User.create({ ...req.body, roles: ["admin"] });
+		await Admin.create({
+			_id: user.id,
+			user: user.id,
+			password: req.body.password,
+		});
+		sendTokenResponse(user, res);
+	} catch (error) {
+		await User.findByIdAndDelete(user.id);
+		return next(new ErrorResponse(`Admin creation failed - ${error.message}`, 500));
 	}
-	await Admin.create({
-		_id: user.id,
-		user: user.id,
-		password: req.body.password,
-	});
-	sendTokenResponse(user, res);
 });
 
 exports.adminLogin = asyncHandler(async (req, res, next) => {
