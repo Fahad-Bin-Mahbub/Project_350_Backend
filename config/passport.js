@@ -9,7 +9,7 @@ passport.use(
 		{
 			clientID: GOOGLE_CLIENT_ID,
 			clientSecret: GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:5000/google/callback",
+			callbackURL: "http://localhost:5000/auth/google/callback",
 			passReqToCallback: true,
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
@@ -44,11 +44,16 @@ passport.use(
 		}
 	)
 );
- 
+
 passport.serializeUser(function (user, done) {
-	done(null, user);
+	done(null, user.id);
 });
 
-passport.deserializeUser(function (user, done) {
-	done(null, user);
+passport.deserializeUser(async (id, done) => {
+	try {
+		const user = await User.findById(id);
+		done(null, user);
+	} catch (error) {
+		done(error);
+	}
 });

@@ -22,7 +22,7 @@ exports.getInviteTemplate = (token) => {
                 </p>
                 <p class="token"
                     style="width: 100px;margin: 40px auto;text-align: center;padding:15px 60px;background: #104cba; font-size: 18px;border-radius: 5px;">
-                    <a style="color: white" href='https:localhost:5000/invite/register?token=${token}'>Click here</a></p>
+                    <a style="color: white" href='localhost:5000/invite/register?token=${token}'>Click here</a></p>
                 <p class="footer-greetings_one" style="margin-top: 40px;">Regards,</p>
                 <p class="footer-greetings">Project 350 Team</p>
             </div>

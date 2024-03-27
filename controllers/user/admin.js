@@ -3,6 +3,7 @@ const Admin = require("../../models/user/admin");
 const User = require("../../models/user");
 const ErrorResponse = require("../../utils/errorResponse");
 const sendTokenResponse = require("../../utils/tokenResponse");
+const Department = require("../../models/department");
 
 exports.createAdmin = asyncHandler(async (req, res, next) => {
 	const { email } = req.body;
@@ -44,4 +45,104 @@ exports.adminLogin = asyncHandler(async (req, res, next) => {
 	if (!isMatch) return next(new ErrorResponse("Invalid Password", 400));
 
 	sendTokenResponse(user, res);
+});
+
+exports.getAll = asyncHandler(async (req, res, next) => {
+	try {
+		const teachers = await Teacher.find().populate;
+
+		return res.status(200).json({
+			success: true,
+			message: "All teacher retrieved",
+			data: tasks,
+		});
+	} catch (error) {
+		return next(new ErrorResponse("Tasks not found", 500));
+	}
+});
+
+exports.createDepartment = asyncHandler(async (req, res, next) => {
+	try {
+		const { name } = req.body;
+		console.log("name is "+name)
+		let department =await Department.findOne({ name });
+		console.log("Deptt is " + department)
+		if (department)
+			return next(new ErrorResponse("Department already existst", 500));
+		await Department.create({
+			name: req.body.name,
+		});
+
+		return res.statis(200).json({
+			success: true,
+			message: "Department created successfully",
+		});
+	} catch (error) {
+		return next(new ErrorResponse("Department not created", 500));
+	}
+});
+
+
+exports.makeHead = asyncHandler(async (req, res, next) => {
+	const { userId } = req.params;
+
+	try {
+		const user = await User.findById(userId);
+
+		if (!user) {
+			return next(new ErrorResponse("User not found", 404));
+		}
+
+		if (user.roles.includes("department_head")) {
+			return next(new ErrorResponse("User is already a department head", 400));
+		}
+
+		await User.updateOne(
+			{ _id: userId },
+			{ $push: { roles: "department_head" } }
+		);
+		const updatedUser = await User.findById(userId);
+
+		return res.status(200).json({
+			success: true,
+			message: "Department head role added successfully",
+			user: updatedUser,
+		});
+	} catch (error) {
+		return next(new ErrorResponse("Failed to add department head role", 500));
+	}
+});
+
+exports.removeHead = asyncHandler(async (req, res, next) => {
+	const { userId } = req.params;
+
+	try {
+		const user = await User.findById(userId);
+
+		if (!user) {
+			return next(new ErrorResponse("User not found", 404));
+		}
+
+		if (!user.roles.includes("department_head")) {
+			return next(new ErrorResponse("User is not a department head", 400));
+		}
+
+		// Remove department_head role from the user
+		await User.updateOne(
+			{ _id: userId },
+			{ $pull: { roles: "department_head" } }
+		);
+
+		const updatedUser = await User.findById(userId);
+
+		return res.status(200).json({
+			success: true,
+			message: "Department head role removed successfully",
+			user: updatedUser,
+		});
+	} catch (error) {
+		return next(
+			new ErrorResponse("Failed to remove department head role", 500)
+		);
+	}
 });
