@@ -28,7 +28,7 @@ exports.createAdmin = asyncHandler(async (req, res, next) => {
 		});
 		sendTokenResponse(user, res);
 	} catch (error) {
-		await User.findByIdAndDelete(user.id);
+		if(user) await User.findByIdAndDelete(user.id);
 		return next(new ErrorResponse(`Admin creation failed - ${error.message}`, 500));
 	}
 });
