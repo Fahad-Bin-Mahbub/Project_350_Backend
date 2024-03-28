@@ -23,5 +23,11 @@ router.get(
 	multiProtect(["admin", "department_head", "teacher"]),
 	controller.getTasksByUser
 );
+
+router.get(
+	"/get-creator-tasks/:creatorId",
+	multiProtect(["admin","department_head"]),
+	controller.getTasksByCreator
+);
 module.exports = router;
  
