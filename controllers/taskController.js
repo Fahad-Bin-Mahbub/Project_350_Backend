@@ -23,6 +23,7 @@ exports.createTask = asyncHandler(async (req, res, next) => {
         return res.status(201).json({
             success: true,
             message: "Task created successfully",
+			data: task
         });
     } catch (error) {
         await Task.findByIdAndDelete(task.id);
