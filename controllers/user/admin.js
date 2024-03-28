@@ -83,7 +83,7 @@ exports.createDepartment = asyncHandler(async (req, res, next) => {
 			name: req.body.name,
 		});
 
-		return res.statis(200).json({
+		return res.status(200).json({
 			success: true,
 			message: "Department created successfully",
 		});
