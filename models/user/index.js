@@ -16,9 +16,14 @@ const userSchema = new Schema({
 		{
 			type: String,
 			enum: ["admin", "teacher", "department_head"],
-			default: "teacher",
+			// default: "teacher",
 		},
 	],
+	department: {
+		type: Schema.Types.ObjectId,
+		ref: "Department",
+		required: true,
+	},
 	photo: String,
 
 	createdAt: {

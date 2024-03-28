@@ -106,6 +106,7 @@ exports.acceptInvite = asyncHandler(async (req, res, next) => {
 			lastName: invite.lastName || "",
 			email: invite.email,
 			roles: [invite.role],
+			department: [invite.department],
 			...req.body,
 		});
 

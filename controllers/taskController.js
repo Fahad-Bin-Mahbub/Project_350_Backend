@@ -4,32 +4,46 @@ const Exam = require("../models/exam");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.createTask = asyncHandler(async (req, res, next) => {
-    let task;
-    try{
-        const userId = req.user.id;
-        const taskData = {...req.body, createdBy: userId};
-        task = await Task.create(taskData);
-        console.log("Task created now assigning to exam");
-        const examId = req.body.examId;
-        console.log(examId)
-        if(examId){
-            console.log("Assigning to exam")
-            const exam =await Exam.findById(examId);
-            console.log(exam);
-            if(!exam) return next(new ErrorResponse("Exam not found", 404));
-            exam.tasks.push(task.id);
-            await exam.save();
-        }
-        return res.status(201).json({
-            success: true,
-            message: "Task created successfully",
+	let task = null; // Initialize task to null
+
+	try {
+		const userId = req.user.id;
+		console.log(userId);
+		const { examId } = req.params;
+		const taskData = { ...req.body, createdBy: userId,exam: examId};
+		task = await Task.create(taskData);
+		console.log(task);
+		console.log("Task created now assigning to exam");
+		// const { examId } = req.params;
+		console.log(examId);
+
+		if (examId) {
+			console.log("Assigning to exam");
+			const exam = await Exam.findById(examId);
+			console.log(exam);
+
+			if (!exam) return next(new ErrorResponse("Exam not found", 404));
+
+			await Exam.findByIdAndUpdate(examId, {
+				$push: { tasks: task._id },
+			});
+		}
+
+		return res.status(201).json({
+			success: true,
+			message: "Task created successfully",
 			data: task
-        });
-    } catch (error) {
-        await Task.findByIdAndDelete(task.id);
-        return next(new ErrorResponse("Task not created", 500));
-    }
+		});
+	} catch (error) {
+		// Check if task is defined before attempting to delete
+		if (task) {
+			await Task.findByIdAndDelete(task._id);
+		}
+
+		return next(new ErrorResponse("Task not created", 500));
+	}
 });
+
 
 exports.updateTask = asyncHandler(async (req, res, next) => {
 	try {
@@ -51,7 +65,6 @@ exports.updateTask = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse("Task not updated", 500));
 	}
 });
-
 
 exports.getAllTasks = asyncHandler(async (req, res, next) => {
 	try {
@@ -82,7 +95,6 @@ exports.getTasksByUser = asyncHandler(async (req, res, next) => {
 	}
 });
 
-
 exports.getTasksByCreator = asyncHandler(async (req, res, next) => {
 	try {
 		const Id = req.user.id;
@@ -97,6 +109,3 @@ exports.getTasksByCreator = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse("Tasks not found", 500));
 	}
 });
-
-
-

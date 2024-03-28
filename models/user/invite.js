@@ -20,6 +20,11 @@ const inviteSchema = new Schema(
 			enum: ["admin", "teacher", "department_head"],
 			default: "teacher",
 		},
+		department: {
+			type: Schema.Types.ObjectId,
+			ref: "Department",
+			required: true,
+		},
 		invitedBy: {
 			type: Schema.Types.ObjectId,
 			ref: "User",
@@ -28,7 +33,7 @@ const inviteSchema = new Schema(
 		status: {
 			type: String,
 			enum: ["pending", "accepted"],
-			default: "pending", 
+			default: "pending",
 		},
 	},
 	{

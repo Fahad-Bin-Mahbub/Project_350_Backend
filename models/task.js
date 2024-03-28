@@ -20,18 +20,24 @@ const taskSchema = new Schema({
 	},
 	teacher: {
 		type: Schema.Types.ObjectId,
-        ref: "Teacher",
+		ref: "Teacher",
+		required: true,
+	},
+	exam: {
+		type: Schema.Types.ObjectId,
+		ref: "Exam",
 		required: true,
 	},
 	creationDate: {
 		type: Date,
 		default: Date.now,
 	},
-    createdBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
+	comments: [{ type: Schema.Types.ObjectId, ref: "Comment", select: false }],
+	createdBy: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+	},
 	dueDate: {
 		type: Date,
 		required: true,
