@@ -15,7 +15,7 @@ router.put(
 );
 router.get(
 	"/get-all-tasks",
-	multiProtect(["admin", "teacher"]),
+	multiProtect(["admin", "department_head"]),
 	controller.getAllTasks
 );
 router.get(
