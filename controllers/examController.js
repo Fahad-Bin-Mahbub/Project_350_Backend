@@ -11,6 +11,7 @@ exports.createExam = asyncHandler(async (req, res, next) => {
         return res.status(201).json({
             success: true,
             message: "Exam created successfully",
+			data: exam
         });
     } catch (error) {
         return next(new ErrorResponse("Exam not created", 500));
