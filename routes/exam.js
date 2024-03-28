@@ -22,4 +22,10 @@ router.get(
 	multiProtect(["admin", "department_head"]),
 	controller.findExamsByCreator
 );
+
+router.get(
+	"/get-head-all-exams/:headId",
+	adminProtect,
+	controller.findExamsByHead
+);
 module.exports = router;
