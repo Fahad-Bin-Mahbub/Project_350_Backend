@@ -9,10 +9,10 @@ router.get(
 
 router.get(
 	"/google/callback",
-	passport.authenticate("google", { failureRedirect: "/" }),
+	passport.authenticate("google", { failureRedirect: "http://localhost:5173" }),
 	(req, res) => {
 		console.log("Hello");
-		res.redirect("/");
+		res.redirect("http://localhost:5173/dashboard");
 	}
 );
 
