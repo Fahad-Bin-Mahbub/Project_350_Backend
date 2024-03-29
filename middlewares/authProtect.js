@@ -2,16 +2,17 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require("./asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
 const User = require("../models/user");
-
+const Blacklist = require("../models/user/blacklist");
 
 exports.adminProtect = asyncHandler(async (req, res, next) => {
 	try {
-		console.log(req)
 		const token = req.headers.authorization.split(" ")[1];
+		const checkBlacklisted = await Blacklist.findOne({ token: token });
+		if (checkBlacklisted)
+			return next(new ErrorResponse("Token is expired already", 400));
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 		req.user = await User.findById(decoded.id);
-		console.log(req)
 		if (!req.user || !req.user.roles.includes("admin")) {
 			return next(new ErrorResponse("Not authorized", 401));
 		}
@@ -34,7 +35,6 @@ exports.inviteProtect = asyncHandler(async (req, res, next) => {
 
 exports.teacherProtect = asyncHandler(async (req, res, next) => {
 	try {
-		console.log(req.user.roles)
 		console.log("Authentication is"+ JSON.stringify(req.session))
 		if (!req.isAuthenticated() || !req.user.roles.includes("teacher")) {
 			return next(new ErrorResponse("Not authorized", 401));
@@ -70,11 +70,14 @@ exports.guestProtect = asyncHandler(async (req, res, next) => {
 exports.multiProtect = (roles) =>
 	asyncHandler(async (req, res, next) => {
 		try {
-			console.log(req.user)
 			if(!req.user)
 			{
 				console.log("User not found. JWT")
 				const token = req.headers.authorization.split(" ")[1];
+				const checkBlacklisted = await Blacklist.findOne({ token: token });
+				if (checkBlacklisted)
+					return next(new ErrorResponse("Token is expired already", 400));
+		
 				const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 				req.user = await User.findById(decoded.id);

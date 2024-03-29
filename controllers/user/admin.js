@@ -4,7 +4,7 @@ const User = require("../../models/user");
 const ErrorResponse = require("../../utils/errorResponse");
 const sendTokenResponse = require("../../utils/tokenResponse");
 const Department = require("../../models/department");
-
+const Blacklist = require("../../models/user/blacklist");
 exports.createAdmin = asyncHandler(async (req, res, next) => {
 	const { email } = req.body;
 	console.log(req.body);
@@ -47,26 +47,60 @@ exports.adminLogin = asyncHandler(async (req, res, next) => {
 	sendTokenResponse(user, res);
 });
 
-exports.getAll = asyncHandler(async (req, res, next) => {
+exports.adminLogout = asyncHandler(async (req, res, next) => {
 	try {
-		const teachers = await Teacher.find().populate;
-
+		const accesstoken = req.headers.authorization.split(" ")[1];
+		console.log(accesstoken);
+		const checkBlacklisted = await Blacklist.findOne({ token: accesstoken });
+		console.log(checkBlacklisted);
+		if (checkBlacklisted)
+			return next(new ErrorResponse("User already logged out", 400));
+		
+			await Blacklist.create({ token:accesstoken });
+		res.setHeader("Clear-Site-Data", '"cookies"');
 		return res.status(200).json({
 			success: true,
-			message: "All teacher retrieved",
-			data: tasks,
+			message: "Logged out successfully",
 		});
 	} catch (error) {
-		return next(new ErrorResponse("Tasks not found", 500));
+		return next(new ErrorResponse("Failed to logout", 500));
 	}
+});
+
+
+exports.getAllTeachers = asyncHandler(async (req, res, next) => {
+  try {
+    const teachers = await User.find({ roles: 'teacher' }); 
+    return res.status(200).json({
+      success: true,
+      message: "All teachers retrieved",
+      data: teachers,
+    });
+  } catch (error) {
+    return next(new ErrorResponse("Failed to retrieve teachers", 500));
+  }
+});
+
+exports.getAllByDepartment = asyncHandler(async (req, res, next) => {
+  const { departmentId } = req.params;
+  try {
+    const users = await User.find({ department: departmentId }); 
+    return res.status(200).json({
+      success: true,
+      message: `All users in department ${departmentId} retrieved`,
+      data: users,
+    });
+  } catch (error) {
+    return next(new ErrorResponse("Failed to retrieve users by department", 500));
+  }
 });
 
 exports.createDepartment = asyncHandler(async (req, res, next) => {
 	try {
 		const { name } = req.body;
-		console.log("name is "+name)
-		let department =await Department.findOne({ name });
-		console.log("Deptt is " + department)
+		console.log("name is " + name);
+		let department = await Department.findOne({ name });
+		console.log("Deptt is " + department);
 		if (department)
 			return next(new ErrorResponse("Department already existst", 500));
 		await Department.create({
@@ -81,7 +115,6 @@ exports.createDepartment = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse("Department not created", 500));
 	}
 });
-
 
 exports.makeHead = asyncHandler(async (req, res, next) => {
 	const { userId } = req.params;
