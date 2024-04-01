@@ -8,13 +8,11 @@ const rateLimit = require("express-rate-limit");
 const jsonParser = require("./middlewares/jsonParser");
 const apiRoutes = require("./routes");
 const passport = require("passport");
-const sgMail = require("@sendgrid/mail");
 const session = require("express-session");
 const { teacherProtect, adminProtect } = require("./middlewares/authProtect");
 const store = require("./config/db");
 require("colors");
 require("./config/passport")
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const limiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60 minutes
 	max: 20000, // Limit each IP to 20k requests per 60 mins

@@ -14,4 +14,4 @@ mongoose
 console.log(process.env.MONGODB_URI);
 const store = MongoStore.create({ mongoUrl: process.env.MONGODB_URI });
 
-module.exports = store;
+module.exports = store; 

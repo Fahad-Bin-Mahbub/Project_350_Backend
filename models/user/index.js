@@ -18,7 +18,7 @@ const userSchema = new Schema({
 			enum: ["admin", "teacher", "department_head"],
 			// default: "teacher",
 		},
-	],
+	], 
 	department: {
 		type: Schema.Types.ObjectId,
 		ref: "Department",
