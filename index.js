@@ -43,30 +43,10 @@ app.use('/auth',require('./routes/auth'))
 // }
 
 app.get("/", (req, res) => {
-	res.send('<a href="/auth/google">Authenticate with google</a>');
+	res.send('Hello');
 });
-// app.get(
-// 	"/auth/google",
-// 	passport.authenticate("google", { scope: ["profile", "email"] })
-// );
-
-// app.get(
-// 	"/google/callback",
-// 	passport.authenticate("google", {
-// 		successRedirect: "/loggedin",
-// 		failureRedirect: "/auth/failure",
-// 	})
-// );
-// app.get("/loggedin", teacherProtect, (req, res) => {
-// 	console.log(req);
-// 	res.send(req.user ? `Welcome ${req.user.firstName}` : "Not logged in");
-// });
-
-// app.get("/auth/failure", (req, res) => {
-// 	res.send("Failed to log in");
-// });
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () =>
+const server = app.listen(PORT,'0.0.0.0', () =>
 	console.log(`Server has started on port ${PORT}`.green)
 );
