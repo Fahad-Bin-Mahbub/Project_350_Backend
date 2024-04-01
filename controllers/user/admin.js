@@ -7,10 +7,7 @@ const Department = require("../../models/department");
 const Blacklist = require("../../models/user/blacklist");
 exports.createAdmin = asyncHandler(async (req, res, next) => {
 	const { email } = req.body;
-	console.log(req.body);
 	let user = await User.findOne({ email });
-	console.log(user);
-
 	try {
 		if (user) {
 			if (user.roles.includes("admin")) {
@@ -44,7 +41,6 @@ exports.adminLogin = asyncHandler(async (req, res, next) => {
 	if(!user)
 		return next(new ErrorResponse("No User found with this email", 404));
 
-	console.log(user);
 	let admin = await Admin.findOne({ _id: user._id }).select("+password");
 
 	if (!admin)
@@ -60,9 +56,7 @@ exports.adminLogin = asyncHandler(async (req, res, next) => {
 exports.adminLogout = asyncHandler(async (req, res, next) => {
 	try {
 		const accesstoken = req.headers.authorization.split(" ")[1];
-		console.log(accesstoken);
 		const checkBlacklisted = await Blacklist.findOne({ token: accesstoken });
-		console.log(checkBlacklisted);
 		if (checkBlacklisted)
 			return next(new ErrorResponse("User already logged out", 400));
 		
@@ -108,9 +102,7 @@ exports.getAllByDepartment = asyncHandler(async (req, res, next) => {
 exports.createDepartment = asyncHandler(async (req, res, next) => {
 	try {
 		const { name } = req.body;
-		console.log("name is " + name);
 		let department = await Department.findOne({ name });
-		console.log("Deptt is " + department);
 		if (department)
 			return next(new ErrorResponse("Department already existst", 500));
 		await Department.create({

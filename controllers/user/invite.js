@@ -19,13 +19,9 @@ exports.createInvite = asyncHandler(async (req, res, next) => {
 	}
 	const data = { ...req.body, invitedBy: req.user.id };
 	const invite = await Invite.create(data);
-	console.log(invite);
 	try {
 		const output = getInviteTemplate(invite.token);
 		const subject = "Invite to join the platform";
-		console.log(output);
-		// const mail = await sendEmail(invite.email, subject, output);
-
 		const transporter = nodemailer.createTransport({
 			service: "gmail",
 			host: "smtp.gmail.com",

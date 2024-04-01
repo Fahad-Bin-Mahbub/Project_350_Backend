@@ -13,7 +13,7 @@ passport.use(
 			passReqToCallback: true,
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
-			console.log(profile);
+		
 			try {
 				// Try to find the user based on their email
 				let user = await User.findOne({ email: profile.emails[0].value });

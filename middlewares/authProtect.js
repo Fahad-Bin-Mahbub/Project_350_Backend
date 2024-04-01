@@ -35,7 +35,6 @@ exports.inviteProtect = asyncHandler(async (req, res, next) => {
 
 exports.teacherProtect = asyncHandler(async (req, res, next) => {
 	try {
-		console.log("Authentication is"+ JSON.stringify(req.session))
 		if (!req.isAuthenticated() || !req.user.roles.includes("teacher")) {
 			return next(new ErrorResponse("Not authorized", 401));
 		}
@@ -72,7 +71,6 @@ exports.multiProtect = (roles) =>
 		try {
 			if(!req.user)
 			{
-				console.log("User not found. JWT")
 				const token = req.headers.authorization.split(" ")[1];
 				const checkBlacklisted = await Blacklist.findOne({ token: token });
 				if (checkBlacklisted)

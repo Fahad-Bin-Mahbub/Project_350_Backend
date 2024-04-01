@@ -8,19 +8,12 @@ exports.createTask = asyncHandler(async (req, res, next) => {
 
 	try {
 		const userId = req.user.id;
-		console.log(userId);
 		const { examId } = req.params;
 		const taskData = { ...req.body, createdBy: userId,exam: examId};
 		task = await Task.create(taskData);
-		console.log(task);
-		console.log("Task created now assigning to exam");
-		// const { examId } = req.params;
-		console.log(examId);
 
 		if (examId) {
-			console.log("Assigning to exam");
 			const exam = await Exam.findById(examId);
-			console.log(exam);
 
 			if (!exam) return next(new ErrorResponse("Exam not found", 404));
 
