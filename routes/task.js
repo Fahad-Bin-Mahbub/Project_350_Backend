@@ -15,13 +15,19 @@ router.put(
 );
 router.get(
 	"/get-all-tasks",
-	multiProtect(["admin", "teacher"]),
+	multiProtect(["admin", "department_head"]),
 	controller.getAllTasks
 );
 router.get(
 	"/get-teacher-tasks",
 	multiProtect(["admin", "department_head", "teacher"]),
 	controller.getTasksByUser
+);
+
+router.get(
+	"/get-creator-tasks/:creatorId",
+	multiProtect(["admin","department_head"]),
+	controller.getTasksByCreator
 );
 module.exports = router;
  

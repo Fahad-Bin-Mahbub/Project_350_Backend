@@ -11,6 +11,7 @@ exports.createExam = asyncHandler(async (req, res, next) => {
         return res.status(201).json({
             success: true,
             message: "Exam created successfully",
+			data: exam
         });
     } catch (error) {
         return next(new ErrorResponse("Exam not created", 500));
@@ -49,6 +50,21 @@ exports.findExamsByCreator = asyncHandler(async (req, res, next) => {
 	try {
 		const Id = req.user.id;
 		const exams = await Exam.find({ createdBy: Id });
+
+		return res.status(200).json({
+			success: true,
+			message: "Exams found",
+			data: exams,
+		});
+	} catch (error) {
+		return next(new ErrorResponse("Exams not found", 500));
+	}
+});
+
+exports.findExamsByHead = asyncHandler(async (req, res, next) => {
+	try {
+		const { headId } = req.params;
+		const exams = await Exam.find({ createdBy: headId });
 
 		return res.status(200).json({
 			success: true,

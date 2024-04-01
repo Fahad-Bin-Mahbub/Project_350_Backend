@@ -10,21 +10,27 @@ exports.createAdmin = asyncHandler(async (req, res, next) => {
 	console.log(req.body);
 	let user = await User.findOne({ email });
 	console.log(user);
-	if (user) {
-		if (user.roles.includes("admin")) {
-			return next(new ErrorResponse("User is already an admin", 400));
+
+	try {
+		if (user) {
+			if (user.roles.includes("admin")) {
+				return next(new ErrorResponse("User is already an admin", 400));
+			}
+			user.roles.push("admin");
+			await user.save();
+		} else {
+			user = await User.create({ ...req.body, roles: ["admin"] });
 		}
-		user.roles.push("admin");
-		await user.save();
-	} else {
-		user = await User.create({ ...req.body, roles: ["admin"] });
+		await Admin.create({
+			_id: user.id,
+			user: user.id,
+			password: req.body.password,
+		});
+		sendTokenResponse(user, res);
+	} catch (error) {
+		if(user) await User.findByIdAndDelete(user.id);
+		return next(new ErrorResponse(`Admin creation failed - ${error.message}`, 500));
 	}
-	await Admin.create({
-		_id: user.id,
-		user: user.id,
-		password: req.body.password,
-	});
-	sendTokenResponse(user, res);
 });
 
 exports.adminLogin = asyncHandler(async (req, res, next) => {
@@ -34,6 +40,10 @@ exports.adminLogin = asyncHandler(async (req, res, next) => {
 
 	if (!password) return next(new ErrorResponse("Please input Password!", 500));
 	let user = await User.findOne({ email });
+	
+	if(!user)
+		return next(new ErrorResponse("No User found with this email", 404));
+
 	console.log(user);
 	let admin = await Admin.findOne({ _id: user._id }).select("+password");
 
@@ -107,7 +117,7 @@ exports.createDepartment = asyncHandler(async (req, res, next) => {
 			name: req.body.name,
 		});
 
-		return res.statis(200).json({
+		return res.status(200).json({
 			success: true,
 			message: "Department created successfully",
 		});

@@ -22,7 +22,7 @@ const userSchema = new Schema({
 	department: {
 		type: Schema.Types.ObjectId,
 		ref: "Department",
-		required: true,
+		required: false,
 	},
 	photo: String,
 
