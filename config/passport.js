@@ -4,12 +4,13 @@ const User = require("../models/user");
 const GOOGLE_CLIENT_ID =
 	"639495684083-a1v48et7h2nj4mvvhkv1elksrb8qkhkm.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "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";
+const baseUrl = "https://examtrack.up.railway.app";
 passport.use(
 	new GoogleStrategy(
 		{
 			clientID: GOOGLE_CLIENT_ID,
 			clientSecret: GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:5000/auth/google/callback",
+			callbackURL: `${baseUrl}/auth/google/callback`,
 			passReqToCallback: true,
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
