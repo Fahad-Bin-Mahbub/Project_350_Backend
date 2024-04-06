@@ -118,6 +118,22 @@ exports.createDepartment = asyncHandler(async (req, res, next) => {
 	}
 });
 
+exports.getDepartmentId = asyncHandler(async (req, res, next) => {
+	try{
+		const { name } = req.body;
+		let department = await department.findOne({ name });
+		if(department){
+			return res.status(200).json({
+				success: true,
+				id: department.id
+			});
+		}
+		else return next(new ErrorResponse("Department not found", 500));
+	} catch (error) {
+		return next(new ErrorResponse("Department not found", 500));
+	}
+});
+
 exports.makeHead = asyncHandler(async (req, res, next) => {
 	const { userId } = req.params;
 

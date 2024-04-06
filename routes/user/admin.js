@@ -8,7 +8,8 @@ const { adminProtect } = require("../../middlewares/authProtect");
 router.post("/create",controller.createAdmin);
 router.post("/login",controller.adminLogin);
 router.post("/logout",controller.adminLogout);
-router.post("/create-department",adminProtect,controller.createDepartment)
+router.post("/create-department",adminProtect,controller.createDepartment);
+router.get("/get-department-id",adminProtect,controller.getDepartmentId);
 router.get("/get-all-teachers", adminProtect,controller.getAllTeachers);
 router.get(
 	"/teachers/:departmentId",
