@@ -47,7 +47,7 @@ exports.createInvite = asyncHandler(async (req, res, next) => {
 				console.log("Email sent");
 			}
 		});
-		res.json({
+		res.status(200).json({
 			success: true,
 			message: "Invite sent successfully",
 		});
