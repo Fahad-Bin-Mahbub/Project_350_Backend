@@ -9,7 +9,7 @@ const sendTokenResponse = (user, res) => {
 	res.status(200).json({
 		success: true,
 		token,
-		data: user,
+		user,
 	});
 };
 
