@@ -121,6 +121,7 @@ exports.createDepartment = asyncHandler(async (req, res, next) => {
 exports.getDepartmentId = asyncHandler(async (req, res, next) => {
 	try{
 		const { name } = req.body;
+		console.log(name);
 		let department = await Department.findOne({ name });
 		if(department){
 			return res.status(200).json({
