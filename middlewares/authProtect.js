@@ -69,7 +69,6 @@ exports.guestProtect = asyncHandler(async (req, res, next) => {
 exports.multiProtect = (roles) =>
 	asyncHandler(async (req, res, next) => {
 		try {
-			console.log(JSON.stringify(req))
 			if(!req.user)
 			{
 				const token = req.headers.authorization.split(" ")[1];

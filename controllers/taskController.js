@@ -61,7 +61,7 @@ exports.updateTask = asyncHandler(async (req, res, next) => {
 
 exports.getAllTasks = asyncHandler(async (req, res, next) => {
 	try {
-		const tasks = await Task.find();
+		const tasks = await Task.find().populate("comments").populate("exam");
 
 		return res.status(200).json({
 			success: true,

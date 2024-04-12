@@ -5,25 +5,16 @@ const {
 	multiProtect,
 } = require("../middlewares/authProtect");
 const router = express.Router();
-const controller = require("../controllers/examController");
+const controller = require("../controllers/commentController");
 router.post(
-	"/create",
-	multiProtect(["admin", "department_head"]),
-	controller.createExam
-);
-router.put(
-	"/update/:id",
-	multiProtect(["admin", "department_head"]),
-	controller.updateExam
+	"/create/:id",
+	multiProtect(["admin", "department_head","teacher"]),
+	controller.createComment
 );
 router.get(
-	"/get-all-exams",
-	multiProtect(["admin", "department_head"]),
-	controller.getAllExams
+	"/get-task-comment/:id",
+	multiProtect(["admin", "department_head", "teacher"]),
+	controller.getCommentsByTask
 );
-router.get(
-	"/get-head-exams",
-	multiProtect(["admin", "department_head"]),
-	controller.findExamsByCreator
-);
+
 module.exports = router;

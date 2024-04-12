@@ -24,10 +24,7 @@ commentSchema.pre("find", function () {
 	this.populate({
 		path: "author",
 		select: "firstName lastName photo",
-	}).populate({
-		path: "likes",
-		select: "firstName lastName photo",
-	});
+	})
 });
 
 const Comment = mongoose.model("Comment", commentSchema);

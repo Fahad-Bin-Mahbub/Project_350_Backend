@@ -32,7 +32,12 @@ const taskSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	comments: [{ type: Schema.Types.ObjectId, ref: "Comment", select: false }],
+	comments: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Comment",
+		},
+	],
 	createdBy: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
