@@ -9,9 +9,9 @@ router.get(
 
 router.get(
 	"/google/callback",
-	passport.authenticate("google", { failureRedirect: "http://localhost:5173" }),
+	passport.authenticate("google", { failureRedirect: "https://exam-paper-track.up.railway.app" }),
 	(req, res) => {
-		res.redirect("http://localhost:5173/dashboard");
+		res.redirect("https://exam-paper-track.up.railway.app/dashboard");
 	}
 );
 
@@ -20,7 +20,7 @@ router.get("/logout", (req, res, next) => {
 		if (err) {
 			return next(err);
 		}
-		res.redirect("http://localhost:5173");
+		res.redirect("https://exam-paper-track.up.railway.app");
 	});
 });
 
