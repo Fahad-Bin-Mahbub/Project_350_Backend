@@ -85,6 +85,19 @@ exports.getAllTeachers = asyncHandler(async (req, res, next) => {
   }
 });
 
+exports.getAllDepartments = asyncHandler(async (req, res, next) => {
+	try {
+	  const departments = await Department.find(); 
+	  return res.status(200).json({
+		success: true,
+		message: "All departments retrieved",
+		data: departments,
+	  });
+	} catch (error) {
+	  return next(new ErrorResponse("Failed to retrieve teachers", 500));
+	}
+  });
+
 exports.getAllByDepartment = asyncHandler(async (req, res, next) => {
   const { departmentId } = req.params;
   try {

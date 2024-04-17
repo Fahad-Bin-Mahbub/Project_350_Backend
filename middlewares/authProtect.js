@@ -46,6 +46,7 @@ exports.teacherProtect = asyncHandler(async (req, res, next) => {
 
 exports.headProtect = asyncHandler(async (req, res, next) => {
 	try {
+		console.log(req.isAuthenticated());
 		if (!req.isAuthenticated() || !req.user.roles.includes("department_head")) {
 			return next(new ErrorResponse("Not authorized", 401));
 		}
