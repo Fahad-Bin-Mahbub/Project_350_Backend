@@ -16,7 +16,7 @@ router.get(
 				message: "User logged in",
 				userData: req.user, // User data from req.user
 			};
-		res.status(200).json(responseData);
+		return res.status(200).json(responseData);
 	}
 );
 
@@ -26,7 +26,7 @@ router.get("/logout", (req, res, next) => {
 			return next(err);
 		}
 		res.clearCookie("connect.sid");
-		res.status(200).json({
+		return res.status(200).json({
 			success: true,
 			message: "User logged out",
 		});
