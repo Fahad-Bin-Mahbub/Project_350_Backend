@@ -5,6 +5,7 @@ const GOOGLE_CLIENT_ID =
 	"639495684083-a1v48et7h2nj4mvvhkv1elksrb8qkhkm.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "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";
 const baseUrl = "https://examtrack.up.railway.app";
+// const baseUrl = "http://localhost:5000";
 passport.use(
 	new GoogleStrategy(
 		{

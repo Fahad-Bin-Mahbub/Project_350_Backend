@@ -1,17 +1,19 @@
 const asyncHandler = require("../middlewares/asyncHandler");
-const Comment = require("../models/Comment");
+const Comment = require("../models/comments");
 const Task = require("../models/task");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.createComment = asyncHandler(async (req, res, next) => {
 	try {
-		const task_id = req.params.task_id;
+		const task_id = req.params.id;
+		console.log(task_id)
 		const data = {
 			task: task_id,
 			author: req.user.id,
 			...req.body,
 		};
 		const comment = await Comment.create(data);
+		console.log(comment)
 		await Task.findByIdAndUpdate(task_id, { $push: { comments: comment.id } });
 		return res.status(201).json({
 			success: true,
@@ -24,7 +26,7 @@ exports.createComment = asyncHandler(async (req, res, next) => {
 });
 
 exports.getCommentsByTask = asyncHandler(async (req, res, next) => {
-	const task_id = req.params.task_id;
+	const task_id = req.params.id;
 	const comments = await Comment.find({ task: task_id });
 	return res.status(200).json({
 		success: true,
