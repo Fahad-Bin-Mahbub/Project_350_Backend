@@ -1,5 +1,5 @@
 const asyncHandler = require("../../middlewares/asyncHandler");
-
+const ErrorResponse = require("../../utils/errorResponse");
 const User = require("../../models/user");
 const Ci = require("../../models/user/ci");
 
