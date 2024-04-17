@@ -9,14 +9,13 @@ router.get(
 
 router.get(
 	"/google/callback",
-	passport.authenticate("google", { failureRedirect: "https://exam-paper-track.up.railway.app" }),
+	passport.authenticate("google", {
+		failureRedirect: "https://exam-paper-track.up.railway.app",
+	}),
 	(req, res) => {
-		 const responseData = {
-				success: true,
-				message: "User logged in",
-				userData: req.user, // User data from req.user
-			};
-		res.status(200).json(responseData);
+		const userId = req.user.id;
+		console.log(userId);
+		res.redirect(`https://exam-paper-track.up.railway.app?id=${userId}`);
 	}
 );
 
@@ -33,4 +32,4 @@ router.get("/logout", (req, res, next) => {
 	});
 });
 
-module.exports = router; 
+module.exports = router;
