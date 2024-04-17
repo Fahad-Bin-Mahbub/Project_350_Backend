@@ -1,3 +1,5 @@
+const asyncHandler = require("../../middlewares/asyncHandler");
+
 const User = require("../../models/user");
 const Ci = require("../../models/user/ci");
 
