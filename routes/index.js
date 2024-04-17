@@ -7,6 +7,7 @@ const inviteRoutes = require("./user/invite")
 const examRoutes = require("./exam");
 const taskRoutes = require("./task");
 const commentRoutes = require("./comment");
+const userRoutes = require("./user/user");
 const { teacherProtect, ensureGuest, adminProtect } = require("../middlewares/authProtect");
 router.use("/admin",adminRoutes);  
 router.use("/head",headRoutes);  
@@ -14,4 +15,5 @@ router.use("/invite",inviteRoutes);
 router.use("/task",taskRoutes);
 router.use("/exam",examRoutes);
 router.use("/comment",commentRoutes);
+router.use("/user",userRoutes);
 module.exports = router;
