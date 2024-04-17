@@ -14,7 +14,6 @@ router.get(
 	}),
 	(req, res) => {
 		const userId = req.user.id;
-		console.log(userId);
 		res.redirect(`https://exam-paper-track.up.railway.app?id=${userId}`);
 	}
 );
@@ -25,7 +24,7 @@ router.get("/logout", (req, res, next) => {
 			return next(err);
 		}
 		res.clearCookie("connect.sid");
-		res.status(200).json({
+		return res.status(200).json({
 			success: true,
 			message: "User logged out",
 		});
