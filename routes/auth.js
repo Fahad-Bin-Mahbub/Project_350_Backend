@@ -11,7 +11,9 @@ router.get(
 	"/google/callback",
 	passport.authenticate("google", { failureRedirect: "https://exam-paper-track.up.railway.app" }),
 	(req, res) => {
-		res.redirect("https://exam-paper-track.up.railway.app/dashboard");
+		req.session.save(() => {
+			res.redirect("https://exam-paper-track.up.railway.app/dashboard");
+		});
 	}
 );
 
