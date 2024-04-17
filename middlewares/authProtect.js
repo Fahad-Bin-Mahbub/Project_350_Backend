@@ -90,6 +90,3 @@ exports.multiProtect = (roles) =>
 			return next(new ErrorResponse("Not authorized", 401));
 		}
 	});
-
-
- 

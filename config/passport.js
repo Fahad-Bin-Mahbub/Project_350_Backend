@@ -17,6 +17,9 @@ passport.use(
 		async function (request, accessToken, refreshToken, profile, done) {
 		
 			try {
+				console.log(request.headers.cookie)
+				console.log(request.user)
+				
 				// Try to find the user based on their email
 				let user = await User.findOne({ email: profile.emails[0].value });
 
@@ -48,7 +51,7 @@ passport.use(
 );
 
 passport.serializeUser(function (user, done) {
-	done(null, user.id);
+	done(null, user);
 });
 
 passport.deserializeUser(async (id, done) => {
