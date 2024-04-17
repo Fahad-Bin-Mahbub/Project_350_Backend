@@ -24,6 +24,7 @@ exports.createCi = asyncHandler(async (req, res, next) => {
             message: "Ci added",
         });
     }catch(error){
+        console.log(error);
         return next(new ErrorResponse("Ci not added", 500));
     }
 });
