@@ -8,19 +8,8 @@ exports.createTask = asyncHandler(async (req, res, next) => {
 
 	try {
 		const userId = req.user.id;
-		const { examId } = req.params;
-		const taskData = { ...req.body, createdBy: userId,exam: examId};
+		const taskData = { ...req.body, createdBy: userId};
 		task = await Task.create(taskData);
-
-		if (examId) {
-			const exam = await Exam.findById(examId);
-
-			if (!exam) return next(new ErrorResponse("Exam not found", 404));
-
-			await Exam.findByIdAndUpdate(examId, {
-				$push: { tasks: task._id },
-			});
-		}
 
 		return res.status(201).json({
 			success: true,

@@ -10,7 +10,7 @@ const taskSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	semester: {
+	session: {
 		type: String,
 		required: true,
 	},
@@ -27,9 +27,8 @@ const taskSchema = new Schema({
 		ref: "Teacher",
 		required: true,
 	},
-	exam: {
-		type: Schema.Types.ObjectId,
-		ref: "Exam",
+	year: {
+		type: Integer,
 		required: true,
 	},
 	creationDate: {
