@@ -28,7 +28,7 @@ const taskSchema = new Schema({
 		required: true,
 	},
 	year: {
-		type: Integer,
+		type: Schema.Types.Number,
 		required: true,
 	},
 	creationDate: {
