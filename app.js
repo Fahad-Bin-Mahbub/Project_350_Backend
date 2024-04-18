@@ -24,7 +24,8 @@ const limiter = rateLimit({
 });
 
 const app = express();
-app.use(cors({ credentials: true, origin: "https://exam-paper-track.up.railway.app"}));
+const origin = ["http://localhost:5173","https://exam-paper-track.up.railway.app"];
+app.use(cors({ credentials: true, origin}));
 app.use(limiter);
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
