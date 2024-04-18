@@ -21,7 +21,7 @@ exports.createTask = asyncHandler(async (req, res, next) => {
 		if (task) {
 			await Task.findByIdAndDelete(task._id);
 		}
-
+		console.log(error);
 		return next(new ErrorResponse("Task not created", 500));
 	}
 });
