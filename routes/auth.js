@@ -11,10 +11,12 @@ router.get(
 	"/google/callback",
 	passport.authenticate("google", {
 		failureRedirect: "https://exam-paper-track.up.railway.app",
+		// failureRedirect: "localhost:5173",
 	}),
 	(req, res) => {
 		const userId = req.user.id;
 		res.redirect(`https://exam-paper-track.up.railway.app/${userId}`);
+		// res.redirect(`localhost:5173/${userId}`);
 	}
 );
 
