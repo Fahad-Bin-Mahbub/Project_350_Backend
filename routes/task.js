@@ -4,7 +4,7 @@ const router = express.Router();
 const controller = require("../controllers/taskController");
 
 router.post(
-	"/create/:examId",
+	"/create",
 	multiProtect(["admin", "department_head"]),
 	controller.createTask
 );
