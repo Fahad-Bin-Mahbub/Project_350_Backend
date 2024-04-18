@@ -16,7 +16,7 @@ router.get(
 	(req, res) => {
 		const userId = req.user.id;
 		res.redirect(`https://exam-paper-track.up.railway.app/${userId}`);
-		// res.redirect(`localhost:5173/${userId}`);
+		// res.redirect(`http://localhost:5173/${userId}`);
 	}
 );
 
