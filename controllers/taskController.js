@@ -65,7 +65,7 @@ exports.getAllTasks = asyncHandler(async (req, res, next) => {
 exports.getTasksByUser = asyncHandler(async (req, res, next) => {
 	try {
 		const teacherId = req.user.id;
-		const tasks = await Task.find({ teacher: teacherId });
+		const tasks = await Task.find({ teacher: teacherId }).populate("comments").populate("teacher");
 
 		return res.status(200).json({
 			success: true,

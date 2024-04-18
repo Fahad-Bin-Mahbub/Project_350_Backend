@@ -14,6 +14,10 @@ const store = require("./config/db");
 require("colors");
 require("./config/passport")
 const limiter = rateLimit({
+	validate:{
+		validationConfig: false,
+		default: true,
+	},
 	windowMs: 60 * 60 * 1000, // 60 minutes
 	max: 20000, // Limit each IP to 20k requests per 60 mins
 	message: "Too many requests from this IP, please try again in an hour!",
