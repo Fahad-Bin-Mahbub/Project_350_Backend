@@ -25,7 +25,7 @@ router.get(
 );
 
 router.get(
-	"/get-creator-tasks/:creatorId",
+	"/get-creator-tasks/",
 	multiProtect(["admin","department_head"]),
 	controller.getTasksByCreator
 ); 

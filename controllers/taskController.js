@@ -79,7 +79,7 @@ exports.getTasksByUser = asyncHandler(async (req, res, next) => {
 
 exports.getTasksByCreator = asyncHandler(async (req, res, next) => {
 	try {
-		const { creatorId } = req.params;
+		const creatorId  = req.user.id;
 		const tasks = await Task.find({ createdBy: creatorId });
 
 		return res.status(200).json({
