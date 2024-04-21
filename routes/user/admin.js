@@ -3,7 +3,7 @@ const router = express.Router();
 
 const controller = require("../../controllers/user/admin");
 
-const { adminProtect,multiProtect ,multiProtect } = require("../../middlewares/authProtect");
+const { adminProtect,multiProtect } = require("../../middlewares/authProtect");
 
 router.post("/create",controller.createAdmin);
 router.post("/login",controller.adminLogin);
