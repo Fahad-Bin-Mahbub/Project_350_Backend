@@ -3,7 +3,7 @@ const router = express.Router();
 
 const controller = require("../../controllers/user/admin");
 
-const { adminProtect } = require("../../middlewares/authProtect");
+const { adminProtect,multiProtect } = require("../../middlewares/authProtect");
 
 router.post("/create",controller.createAdmin);
 router.post("/login",controller.adminLogin);
@@ -14,7 +14,7 @@ router.get("/get-all-teachers", adminProtect,controller.getAllTeachers);
 router.get("/get-all-departments",adminProtect,controller.getAllDepartments);
 router.get(
 	"/teachers/:departmentId",
-	adminProtect,controller.getAllByDepartment
+	multiProtect(["admin", "department_head"]),controller.getAllByDepartment
 );
 router.put("/make-head/:userId",adminProtect,controller.makeHead)
 router.put("/remove-head/:userId", adminProtect,controller.removeHead);

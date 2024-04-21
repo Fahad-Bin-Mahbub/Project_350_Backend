@@ -56,6 +56,18 @@ exports.headProtect = asyncHandler(async (req, res, next) => {
 	}
 });
 
+exports.ciProtect = asyncHandler(async (req, res, next) => {
+	try {
+		console.log(req.isAuthenticated());
+		if (!req.isAuthenticated() || !req.user.roles.includes("ci")) {
+			return next(new ErrorResponse("Not authorized", 401));
+		}
+		next();
+	} catch (error) {
+		return next(new ErrorResponse("Not authorized", 401));
+	}
+});
+
 exports.guestProtect = asyncHandler(async (req, res, next) => {
 	try {
 		if (!req.isAuthenticated()) {
