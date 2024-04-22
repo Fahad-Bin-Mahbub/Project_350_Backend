@@ -80,13 +80,36 @@ exports.getTasksByUser = asyncHandler(async (req, res, next) => {
 exports.getTasksByCreator = asyncHandler(async (req, res, next) => {
 	try {
 		const creatorId  = req.user.id;
-		const tasks = await Task.find({ createdBy: creatorId });
+		const tasks = await Task.find({ createdBy: creatorId }).populate("comments").populate("teacher");
 
 		return res.status(200).json({
 			success: true,
 			message: "Tasks found",
 			data: tasks,
 		});
+	} catch (error) {
+		return next(new ErrorResponse("Tasks not found", 500));
+	}
+});
+
+exports.getUniqueTask = asyncHandler(async (req, res, next) => {
+	try {
+		const { courseCode,part,session }  = req.query;
+		console.log(courseCode,part,session);
+		const task = await Task.find({ courseCode:courseCode,part:part,session:session });
+
+		if(task.length > 0){
+			return res.status(200).json({
+				success: true,
+				message: "Task found",
+				data: task[0],
+			});
+		}
+		else{
+			return res.status(204).json({
+				success: true,
+			});
+		}
 	} catch (error) {
 		return next(new ErrorResponse("Tasks not found", 500));
 	}

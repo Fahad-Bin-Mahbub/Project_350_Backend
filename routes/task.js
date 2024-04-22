@@ -5,12 +5,12 @@ const controller = require("../controllers/taskController");
 
 router.post(
 	"/create",
-	multiProtect(["admin", "department_head"]),
+	multiProtect(["admin", "ci"]),
 	controller.createTask
 );
 router.put(
 	"/update/:id",
-	multiProtect(["admin", "department_head"]),
+	multiProtect(["admin", "ci"]),
 	controller.updateTask
 );
 router.get(
@@ -20,14 +20,19 @@ router.get(
 );
 router.get(
 	"/get-teacher-tasks",
-	multiProtect(["admin", "department_head", "teacher"]),
+	multiProtect(["admin", "department_head", "ci", "teacher"]),
 	controller.getTasksByUser
 );
 
 router.get(
-	"/get-creator-tasks/",
-	multiProtect(["admin","department_head"]),
+	"/get-creator-tasks",
+	multiProtect(["admin","ci"]),
 	controller.getTasksByCreator
-); 
+);
+
+router.get("/get-unique-task",
+	multiProtect(["admin","ci"]),
+	controller.getUniqueTask
+);
 module.exports = router;
  
