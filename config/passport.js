@@ -4,8 +4,8 @@ const User = require("../models/user");
 const GOOGLE_CLIENT_ID =
 	"639495684083-a1v48et7h2nj4mvvhkv1elksrb8qkhkm.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "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";
-const baseUrl = "https://examtrack.up.railway.app";
-// const baseUrl = "http://localhost:5000";
+// const baseUrl = "https://examtrack.up.railway.app";
+const baseUrl = "http://localhost:5000";
 passport.use(
 	new GoogleStrategy(
 		{
@@ -15,11 +15,10 @@ passport.use(
 			passReqToCallback: true,
 		},
 		async function (request, accessToken, refreshToken, profile, done) {
-		
 			try {
-				console.log(request.headers.cookie)
-				console.log(request.user)
-				
+				console.log(request.headers.cookie);
+				console.log(request.user);
+
 				// Try to find the user based on their email
 				let user = await User.findOne({ email: profile.emails[0].value });
 

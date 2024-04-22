@@ -5,9 +5,10 @@ const Ci = require("../../models/user/ci");
 const Department = require("../../models/department");
 
 exports.createCi = asyncHandler(async (req, res, next) => {
-	const { session, email } = req.body;
+	const { session, id } = req.body;
 	try {
-		let user = await User.findOne({ email });
+		console.log(id);
+		let user = await User.findById(id);
 		if (!user) {
 			return next(new ErrorResponse("No user with this email", 500));
 		}
