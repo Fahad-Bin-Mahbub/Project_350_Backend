@@ -50,7 +50,10 @@ exports.updateTask = asyncHandler(async (req, res, next) => {
 
 exports.getAllTasks = asyncHandler(async (req, res, next) => {
 	try {
-		const tasks = await Task.find().populate("comments");
+		const tasks = await Task.find()
+			.populate("comments")
+			.populate("teacher")
+			.populate("createdBy");
 
 		return res.status(200).json({
 			success: true,
@@ -65,7 +68,7 @@ exports.getAllTasks = asyncHandler(async (req, res, next) => {
 exports.getTasksByUser = asyncHandler(async (req, res, next) => {
 	try {
 		const teacherId = req.user.id;
-		const tasks = await Task.find({ teacher: teacherId }).populate("comments").populate("teacher");
+		const tasks = await Task.find({ teacher: teacherId }).populate("comments").populate("teacher").populate("createdBy");
 
 		return res.status(200).json({
 			success: true,
@@ -80,7 +83,9 @@ exports.getTasksByUser = asyncHandler(async (req, res, next) => {
 exports.getTasksByCreator = asyncHandler(async (req, res, next) => {
 	try {
 		const creatorId  = req.user.id;
-		const tasks = await Task.find({ createdBy: creatorId }).populate("comments").populate("teacher");
+
+		const tasks = await Task.find({ createdBy: creatorId }).populate("teacher").populate("comments").populate("createdBy")	;
+
 
 		return res.status(200).json({
 			success: true,

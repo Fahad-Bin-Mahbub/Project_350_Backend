@@ -10,7 +10,11 @@ router.post("/login",controller.adminLogin);
 router.post("/logout",controller.adminLogout);
 router.post("/create-department",adminProtect,controller.createDepartment);
 router.get("/get-department-id/:name",adminProtect,controller.getDepartmentId);
-router.get("/get-all-teachers", adminProtect,controller.getAllTeachers);
+router.get(
+	"/get-all-teachers",
+	multiProtect(["admin", "department_head", "ci"]),
+	controller.getAllTeachers
+);
 router.get("/get-all-departments",adminProtect,controller.getAllDepartments);
 router.get(
 	"/teachers/:departmentId",
