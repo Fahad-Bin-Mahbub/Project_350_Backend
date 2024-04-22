@@ -10,7 +10,7 @@ router.post(
 );
 router.put(
 	"/update/:id",
-	multiProtect(["admin", "ci"]),
+	multiProtect(["admin", "ci","teacher"]),
 	controller.updateTask
 );
 router.get(
