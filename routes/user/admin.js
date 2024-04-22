@@ -22,7 +22,7 @@ router.get(
 router.get("/get-all-departments", adminProtect, controller.getAllDepartments);
 router.get(
 	"/teachers/:departmentId",
-	multiProtect(["admin", "department_head", "ci"]),
+	multiProtect(["admin", "department_head", "ci", "teacher"]),
 	controller.getAllByDepartment
 );
 router.put("/make-head/:userId", adminProtect, controller.makeHead);
