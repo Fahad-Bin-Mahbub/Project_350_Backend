@@ -8,12 +8,12 @@ const router = express.Router();
 const controller = require("../controllers/commentController");
 router.post(
 	"/create/:id",
-	multiProtect(["admin", "department_head","teacher"]),
+	multiProtect(["admin", "department_head", "teacher", "ci"]),
 	controller.createComment
 );
 router.get(
 	"/get-task-comment/:id",
-	multiProtect(["admin", "department_head", "teacher"]),
+	multiProtect(["admin", "department_head", "teacher", "ci"]),
 	controller.getCommentsByTask
 );
 
